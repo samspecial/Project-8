@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="author" content="Todo App Documentation">
+  <meta name="description" content="This documents describes in details the working principle of a Todo App and how it differs from that of the competitors">
+  <meta name="keywords" content="Todo, App, competitors, MVC, Model, View, Controller, Speed, Memory, Performance, First Content Paint, Heap, Frame, Scripting, Loading, Rendering, Advertising">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Todo App Documentation</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <nav>
+
+  </nav>
+  <section class="container text-justify">
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8 col-sm-12">
+        <h2>Introduction: Getting Started</h2>
+        <p>This Todo-App helps a user to generate a list of items/ tasks to be carried out, filter through, and delete list
+          items from the log.</p>
+        <p>The app also gives the flexibility of marking each Todo Items as either active or completed, and display/filter corresponding
+          Todo Items based on all, active or completed Todo list.</p>
+        <p>It also has a feature that clears all completed Todos from the list array.</p>
+        <p>The architecture of the application was built using plain JavaScript which is commonly referred to as Vanilla JavaScript.</p>
+
+        <h3>Technical Guide</h3>
+        <p>The Todo App is built using the
+          <span class="text-danger">Model</span> -
+          <span class="text-danger">View</span> -
+          <span class="text-danger">Controller</span> Architecture design.
+          <p>The MVC pattern is a software design pattern commonly used for developing user interfaces that divides the related
+            program logic into three interconnected elements. This pattern is used to separate application's concerns.</p>
+          <p>Model, View and the Controller are separate entities. The
+            <strong>Controller</strong> serves as the intermidiary between the
+            <strong>Model</strong> and the
+            <strong>View</strong>, thereby making it the only entity that can interact with the both. See the picture below for more
+            information.
+          </p>
+          <img src="assets/mvc.png" alt="MVC Design Pattern" class="img-fluid">
+          <h5>The Model-View-Controller (MVC)</h5>
+
+          <ul>
+            <li>
+              <strong>Model</strong>: Model is responsible for managing the data of the application. </li>
+            <li>
+              <strong>View</strong>: View is a presentation of the model in a particular format - in our case displaying All, Active
+              or Completed todos (route). It also let user to interact with displayed data.
+            </li>
+            <li>
+              <strong>Controller</strong>: Controller responds to the user input from View and performs interactions with Model.</li>
+          </ul>
+
+          <h5>Todo App Structure</h5>
+          <p>The Todo App is made up of the following structure, which are: </p>
+          <ul>
+            <li>
+              <strong>index.html: </strong>The file provides the structure needed by the Todo App.</li>
+            <li>
+              <strong>index.css &amp; base.css: </strong>These two files helped us to present the layout and look of our Todo App
+              in a more appealing manner.</li>
+            <li>
+              <strong>JavaScript Folder: </strong>This folder comprises of all javascript files used in the Todo App. They are as
+              follows:
+              <ul>
+                <li>app.js: The Model, View and Controller were initialized in the app.js file. It manages the user actions and
+                  connects the View with the Model in terms of interactions and operations.</li>
+                <li>controller.js: This is where all the logic implementation of the Todo App features is handled. It is the
+                  link between the model and view.</li>
+                <li>helpers.js: This delivers helper functions for DOM elements - querying, wrapping, delegating events</li>
+                <li>model.js: Data Management Methods</li>
+                <li>store.js: This help us to have data persistent using local storage.</li>
+                <li>template.js: This function displays list items, change button states, escape characters</li>
+                <li>view.js : This defines how the data will be displayed on the client side of the Todo
+                </li>
+              </ul>
+            </li>
+            <li>
+              <strong>test folder: </strong>This contains the files for bith the Todo App test file (ControllerSpec.js) and test
+              runner (SpecRunner.html).</li>
+            <li>
+              <strong>gitignore file: </strong>This file includes the names of all the files and folders we do not want to add to
+              github
+            </li>
+            <li>
+              <strong>package.json file: </strong>This contains the names of dependencies needed for our Todo App to function optimally.</li>
+            <li>
+              <strong>license.md: </strong>This contains the permission access of the Todo App.</li>
+          </ul>
+
+          <h5>Bug Fixing</h5>
+          <ul>
+            <li>
+              <b>controller.js line #95</b>
+              <p>Bug which not allows adding new todos to the list (simple typo bug).</p>
+              <p>bug:</p>
+              <pre>
+                  <code>
+                    Controller.prototype.adddItem
+                  </code>
+                </pre>
+
+              <p>Solved:</p>
+              <pre>
+                  <code>
+                    Controller.prototype.addItem
+                  </code>
+                </pre>
+
+            </li>
+            <li>
+              <b>store.js from line #83</b>
+              <p>Bug which may leads to potential conflict between duplicate IDs</p>
+              <p>bug:</p>
+              <pre> 
+                  <code>
+                  for (var i = 0; i < 6; i++) { 
+                    newId +=charset.charAt(Math.floor(Math.random() * charset.length));
+                  }
+                 </code>
+                </pre>
+
+              <p>Solved:</p>
+              <pre>
+                  <code>
+                    var isUnique = false; 
+                    while (!isUnique){ 
+                      for (var i = 0; i < 6; i++) { 
+                        newId +=charset.charAt(Math.floor(Math.random() * charset.length)); 
+                      } 
+                      isUnique=true; 
+                      for(var i = 0; i < todos.length; i++){ 
+                        if (todos[i].id == newId){ 
+                          isUnique = false; 
+                        } 
+                      } 
+                    } 
+                  </code>
+                </pre>
+
+            </li>
+            <li>
+              <b>index.html line #16</b>
+              <p>Missing id in input tag for toggle-all label which prevent toggle all todos to work properly.
+              </p>
+              <p>Bug:</p>
+              <pre>
+                <code>
+                  <input class="toggle-all" type="checkbox">
+                  <label for="toggle-all">Mark all as complete</label>
+                </code>
+              </pre>
+
+              <p>Fixed:</p>
+              <pre>
+                <code>
+                  <input class="toggle-all" id="toggle-all" type="checkbox">
+                  <label for="toggle-all">Mark all as complete</label>
+                </code>
+              </pre>
+
+            </li>
+
+            <li>
+              <b>controller.js line #165</b>
+              <p>Console log displayed message when user delete todo (unnessesary code and console log).
+              </p>
+              <pre>
+              <code>
+                items.forEach(function(item) { 
+                  if (item.id === id) {
+                     console.log("Element with ID: " + id + " has been removed.");
+                     })
+                  });
+              </code>
+            </pre>
+              <p>The piece of code above was removed</p>
+            </li>
+          </ul>
+
+          <h5>Tests</h5>
+          <p>The test for the project was written using Jasmine. Jasmine is a JavaScript Open Source Testing Framework.</p>
+          <p>Tests carried out in the Todo App are as follows: </p>
+          <ul>
+            <li>Show entries on start-up</li>
+            <li>Show active enteries</li>
+            <li>Show completed entries</li>
+            <li>Show the content block when todos exists</li>
+            <li>Highlight "All" filter by default</li>
+            <li>Toggle all todos to completed</li>
+            <li>Update the view</li>
+            <li>Add a new todo to the model</li>
+            <li>Remove an entry from the model</li>
+          </ul>
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+              <h3>Comaprison Between Competitor's Todo App</h3>
+              <h5>Definition of Audit Terms</h5>
+              <p>
+                <strong>Frame Rate</strong>: The main metric for measuring the performance of any animation is frames per second
+                (FPS). Optimum User experience is achieved when animations run at 60 FPS.</p>
+              <p>
+                <strong>First Contentful Paint</strong>: The First Contentful Paint (FCP) metric measures the time from when the
+                page starts loading to when any part of the page's content is rendered on the screen. For this metric, "content"
+                refers to text, images (including background images),
+                <svg> elements, or non-white
+                  <canvas> elements.</p>
+              <p>
+                <strong>Largest Contentful Paint</strong>: The (LCP) metric reports the render time of the largest image or text
+                block visible within the viewport. A good user experience within the first 2.5 seconds when the page started
+                to load.</p>
+              <p>
+                <strong>Waterfall</strong>: This gives insight into the sorts of things the browser is doing as it runs your site
+                or app.</p>
+              <p>
+                <strong>Call Tree</strong>: The Call Tree tells which JavaScript functions the browser spent the most time in. By
+                analyzing its results, one can find bottlenecks in one's code - places where the browser is spending a disproportionately
+                large amount of time.</p>
+              <ul>
+                <li>Total Time: is that number translated into milliseconds, based on the total amount of time covered by the
+                  selected portion of the recording.</li>
+                <li>Total Cost is that number as a percentage of the total number of samples in the selected portion of the recording.</li>
+                <li>Self Time is calculated as the time spent in that particular function, excluding its children.</li>
+                <li>Self Cost is calculated from Self Time as a percentage of the total number of samples in the selected portion
+                  of the recording.</li>
+              </ul>
+              <p>
+                <strong>Flame Chart</strong>: The Flame Chart shows you the state of the JavaScript stack for your code at every
+                millisecond during the performance profile.</p>
+
+              <ul>
+                <li>First Paint:1775.5ms</li>
+                <li>Largest Contentful Page occured on an Image in the div#maintodo.wrapper; size: 17580</li>
+                <li>DOMContentLoaded: 7288.5ms </li>
+                <li>Script Loading Time: 11337ms </li>
+
+              </ul>
+              <img src="assets/competitor-todo1.png" alt="Competitor Performance" class="img-fluid">
+
+              <ul>
+                <li>First Paint:686.1ms</li>
+                <li>Largest Contentful Page occured on h1 element; size: 3580; time; 686.1ms</li>
+                <li>DOMContentLoaded: 693.5ms </li>
+                <li>Script Loading Time: 94ms </li>
+              </ul>
+              <img src="assets/our-todo.png" alt="Our Todo App" class="img-fluid">
+              <!-- Expand the Main section. DevTools shows you a flame chart of activity on the main thread, over time. The
+                x-axis represents the recording, over time. Each bar represents an event. A wider bar means that event took
+                longer. The y-axis represents the call stack. When you see events stacked on top of each other, it means
+                the upper events caused the lower events. The Animation Frame Fired event has a red triangle, indicating
+                a warning that there may be an issue related to this event. The Animation Frame Fired event occurs whenever
+                a requestAnimationFrame() callback is executed. -->
+
+
+              <h3>Our Todo App</h3>
+              <div class="row">
+
+                <div class="col-md-12">
+                  <table class="table table-striped table-bordered bg-dark text-light">
+                    <thead>
+                      <tr class="text-center">
+                        <th>S/N</th>
+                        <th>Pros</th>
+                        <th>Cons</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>Short loading time</td>
+                        <td>The functionality is limited</td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>Low memory usage</td>
+                        <td>Only local storage is used to store data</td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td>Short time of performing functionalities</td>
+                        <td> - </td>
+                      </tr>
+                      <tr>
+                        <td>4</td>
+                        <td>Simple design</td>
+                        <td> - </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+
+              <h3>Competitor Todo App</h3>
+              <div class="row">
+
+                <div class="col-md-12">
+                  <table class="table table-striped table-bordered bg-dark text-light">
+                    <thead>
+                      <tr class="text-center">
+                        <th>S/N</th>
+                        <th>Pros</th>
+                        <th>Cons</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>Ability to sort tasks</td>
+                        <td>Long loading time</td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>Ability to print list</td>
+                        <td>High memory usage</td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td>User can create multiple list</td>
+                        <td>Google ads significantly extend loading time </td>
+                      </tr>
+                      <tr>
+                        <td>4</td>
+                        <td>User can create categories</td>
+                        <td> - </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+            </div>
+          </div>
+      </div>
+
+
+      <div class="col-md-2"></div>
+    </div>
+  </section>
+
+</body>
+
+</html>
