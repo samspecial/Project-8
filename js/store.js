@@ -85,6 +85,9 @@
 		var charset = "0123456789";
 		var isUnique = false;
 		// Generate newId and check that it is unique
+		// var todoCreatedTime = new Date();
+		// newId = todoCreatedTime;
+
 		while (!isUnique) {
 			newId = "";
 			for (var i = 0; i < 6; i++) {
